@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    </head>
+    <script>
+        function onSapLogonSuccess() {
+            alert("EventLogging: onSapLogonSuccess");
+            initPush();
+        }
+
+        function initPush() {
+            alert("EventLogging: initPush");
+            sap.Push.initPush(processNotification);
+        }
+
+        function processNotification(notification) {
+            alert("in processNotification: " + JSON.stringify(notification));
+            if (sap.Push.setPushFeedbackStatus && notification.additionalData) {  //SP15 new feature
+                sap.Push.setPushFeedbackStatus('consumed', notification.additionalData.notificationId, pushFeedbackStatusSuccessCallback, pushFeedbackStatusErrorCallback);
+            }
+        }
+        
+        document.addEventListener("onSapLogonSuccess", onSapLogonSuccess, false);
+    </script>
+    <h1>Push Demo</h1>
+</html>
